@@ -102,5 +102,30 @@
         app:layout_constraintTop_toBottomOf="@+id/titulo_cantidad"
         tools:ignore="DuplicateSpeakableTextCheck" />
 
+    <TextView
+        android:id="@+id/titulo_fotoprecio"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="64dp"
+        android:text="@string/fotodelprecio"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.019"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titulo_cantidad" />
+
+    <ImageButton
+        android:id="@+id/info_boton_fotoPrecio"
+        android:layout_width="390dp"
+        android:layout_height="97dp"
+        android:background="@drawable/contorno_rect_info"
+        android:layout_marginTop="44dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/info_cantidad"
+        app:srcCompat="@drawable/camera_120_128" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
