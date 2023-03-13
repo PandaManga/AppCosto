@@ -11,7 +11,7 @@
         android:id="@+id/new_product_tool_bar"
         layout="@layout/toolbar_nuevo_producto"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -126,6 +126,32 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/info_cantidad"
         app:srcCompat="@drawable/camera_120_128" />
+
+    <TextView
+        android:id="@+id/titulo_fotoproducto"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="116dp"
+        android:text="@string/fotodelproducto"
+        android:textColor="@color/white"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.018"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titulo_fotoprecio" />
+
+    <ImageButton
+        android:id="@+id/info_boton_fotoProducto"
+        android:layout_width="390dp"
+        android:layout_height="97dp"
+        android:layout_marginTop="8dp"
+        app:srcCompat="@drawable/camera_120_128"
+        android:background="@drawable/contorno_rect_info"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.476"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titulo_fotoproducto" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
