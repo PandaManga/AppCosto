@@ -13,7 +13,7 @@
         android:layout_gravity="center"
         android:textColor="@color/white"
         android:textSize="30sp"
-        android:text="@string/titulo_menu"
+        android:text="@string/titulo_nuevo_producto"
         />
 
 </androidx.appcompat.widget.Toolbar>
