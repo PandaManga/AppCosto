@@ -2,4 +2,18 @@
     <string name="app_name">AppCosto</string>
     <string name="titulo_menu">Menu Principal</string>
     <string name="titulo_nuevo_producto">Nuevo Producto</string>
+    <string name="nombreDelProducto">Nombre del producto</string>
+    <string name="marca">Marca</string>
+    <string name="cantidad">Cantidad/Piezas</string>
+    <string name="fotodelproducto">Foto del producto</string>
+    <string name="fotodelprecio">Foto del precio</string>
+    <string name="precio">Precio</string>
+    <string name="descuento">¿Tiene descuento?</string>
+    <string name="detallesDescuento">Especifique el tipo de descuento</string>
+    <string name="Promocion">¿Tiene promoción?</string>
+    <string name="destallesPromocion">Especifique la promoción</string>
+    <string name="si">Sí</string>
+    <string name="no">No</string>
+
+
 </resources>
