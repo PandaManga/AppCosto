@@ -14,6 +14,8 @@
     <string name="destallesPromocion">Especifique la promoción</string>
     <string name="si">Sí</string>
     <string name="no">No</string>
-
-
+    <string name="Tienda">Tienda</string>
+    <string name="destallesTienda">Nombre de la tienda</string>
+    <string name="Sucursal">Sucursal</string>
+    <string name="destallesSucursal">Direccion de la sucursal</string>
 </resources>

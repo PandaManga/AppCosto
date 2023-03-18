@@ -2,14 +2,15 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="409dp"
-    android:layout_height="729dp"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
     android:background="@color/fondo_color"
     android:fillViewport="true"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
-    tools:ignore="SpeakableTextPresentCheck">
+    tools:ignore="SpeakableTextPresentCheck"
+    tools:context=".ProductNew">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
@@ -48,6 +49,8 @@
             android:background="@drawable/contorno_rect_info"
             android:hint="@string/nombreDelProducto"
             android:minHeight="48dp"
+            android:shape="rectangle"
+            android:translationZ="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.454"
             app:layout_constraintStart_toStartOf="parent"
@@ -77,6 +80,8 @@
             android:background="@drawable/contorno_rect_info"
             android:hint="@string/marca"
             android:minHeight="48dp"
+            android:shape="rectangle"
+            android:translationZ="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/titulo_marca"
@@ -105,6 +110,8 @@
             android:background="@drawable/contorno_rect_info"
             android:hint="@string/cantidad"
             android:minHeight="48dp"
+            android:shape="rectangle"
+            android:translationZ="10dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.454"
             app:layout_constraintStart_toStartOf="parent"
@@ -131,6 +138,8 @@
             android:layout_width="350dp"
             android:layout_height="97dp"
             android:layout_marginTop="44dp"
+            android:shape="rectangle"
+            android:translationZ="10dp"
             android:background="@drawable/contorno_rect_info"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -158,6 +167,8 @@
             android:layout_width="350dp"
             android:layout_height="97dp"
             android:layout_marginTop="8dp"
+            android:shape="rectangle"
+            android:translationZ="10dp"
             android:background="@drawable/contorno_rect_info"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.476"
@@ -185,6 +196,8 @@
             android:layout_width="350dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
+            android:shape="rectangle"
+            android:translationZ="10dp"
             android:background="@drawable/contorno_rect_info"
             android:hint="@string/precio"
             android:minHeight="48dp"
@@ -207,13 +220,14 @@
             app:layout_constraintTop_toBottomOf="@+id/titulo_precio" />
 
         <RadioGroup
+            android:id="@+id/radioGroupDescuento"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
             android:checkedButton="@+id/descuento_No"
             android:orientation="horizontal"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.092"
+            app:layout_constraintHorizontal_bias="0.131"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/titulo_descuento">
 
@@ -224,6 +238,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="21dp"
                 android:layout_marginTop="8dp"
+                android:onClick="deployDescuentoDetalles"
                 android:text="@string/no"
                 android:textColor="@color/white"
                 android:textSize="20sp"
@@ -231,13 +246,15 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.0"
                 app:layout_constraintStart_toEndOf="@+id/descuento_Si"
-                app:layout_constraintTop_toBottomOf="@+id/titulo_descuento" />
+                app:layout_constraintTop_toBottomOf="@+id/titulo_descuento"
+                tools:ignore="TouchTargetSizeCheck" />
 
             <RadioButton
                 android:id="@+id/descuento_Si"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
+                android:onClick="deployDescuentoDetalles"
                 android:text="@string/si"
                 android:textColor="@color/white"
                 android:textSize="20sp"
@@ -245,8 +262,149 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintHorizontal_bias="0.289"
                 app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toBottomOf="@+id/titulo_descuento" />
+                app:layout_constraintTop_toBottomOf="@+id/titulo_descuento"
+                tools:ignore="TouchTargetSizeCheck" />
 
         </RadioGroup>
+
+        <EditText
+            android:id="@+id/info_descuento"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:autofillHints="%10"
+            android:shape="rectangle"
+            android:translationZ="10dp"
+            android:background="@drawable/contorno_rect_info"
+            android:hint="@string/detallesDescuento"
+            android:visibility="gone"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroupDescuento"
+            tools:ignore="TextFields" />
+
+        <TextView
+            android:id="@+id/titulo_promocion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/Promocion"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.021"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/info_descuento" />
+
+        <RadioGroup
+            android:id="@+id/radioGroupPromocion"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:checkedButton="@+id/promocion_No"
+            android:orientation="horizontal"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.131"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titulo_promocion">
+
+            <RadioButton
+                android:id="@+id/promocion_No"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="21dp"
+                android:layout_marginTop="8dp"
+                android:onClick="deployPromocionDetalles"
+                android:text="@string/no"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+            <RadioButton
+                android:id="@+id/promocion_Si"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="8dp"
+                android:onClick="deployPromocionDetalles"
+                android:text="@string/si"
+                android:textColor="@color/white"
+                android:textSize="20sp"
+                android:textStyle="bold" />
+
+        </RadioGroup>
+
+        <EditText
+            android:id="@+id/info_promocion"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:autofillHints="2x1"
+            android:background="@drawable/contorno_rect_info"
+            android:shape="rectangle"
+            android:translationZ="10dp"
+            android:hint="@string/destallesPromocion"
+            android:minHeight="48dp"
+            android:visibility="gone"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/radioGroupPromocion" />
+
+        <TextView
+            android:id="@+id/titulo_tienda"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="4dp"
+            android:text="@string/Tienda"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.021"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/info_promocion" />
+
+        <EditText
+            android:id="@+id/info_tienda"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:autofillHints="Direccion, Municipio, Avenida"
+            android:background="@drawable/contorno_rect_info"
+            android:hint="@string/destallesTienda"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titulo_tienda" />
+
+        <TextView
+            android:id="@+id/titulo_sucursal"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:text="@string/Sucursal"
+            android:textColor="@color/white"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="0.021"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/info_tienda" />
+
+        <EditText
+            android:id="@+id/info_sucursal"
+            android:layout_width="350dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:autofillHints="%10"
+            android:shape="rectangle"
+            android:translationZ="10dp"
+            android:background="@drawable/contorno_rect_info"
+            android:hint="@string/destallesSucursal"
+            android:minHeight="48dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/titulo_sucursal" />
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>
