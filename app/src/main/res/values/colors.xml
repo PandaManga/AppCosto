@@ -4,6 +4,7 @@
     <color name="menu_color">#82A8E8</color>
     <color name="botones_menu_color">#8F9BFF</color>
     <color name="boton_guardar_color">#49A9DF</color>
+    <color name="pop_up_foto_color">#82A8E7</color>
     <color name="boton_borrar_color">#DF4949</color>
     <color name="boton_aceptar">#8BDF49</color>
     <color name="white">#FFFFFFFF</color>
