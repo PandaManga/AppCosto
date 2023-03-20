@@ -22,6 +22,10 @@
         </activity>
         <activity
             android:name=".ProductNew"/>
+        <activity
+            android:name=".ProductModel"/>
+        <activity
+            android:name=".SQLiteHelper"/>
     </application>
 
 </manifest>
