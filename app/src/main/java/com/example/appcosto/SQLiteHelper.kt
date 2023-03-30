@@ -25,8 +25,6 @@ class SQLiteHelper(context: Context) : SQLiteOpenHelper(context, DATEBASE_NAME, 
         private const val DetallePromocion = "DetallePromocion"
         private const val Tienda = "Tienda"
         private const val Direccion = "Direccion"
-
-
     }
 
     override fun onCreate(db: SQLiteDatabase?) {
