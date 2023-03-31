@@ -4,6 +4,7 @@ import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
+import android.media.Image
 import android.os.Bundle
 import android.view.View
 import android.provider.MediaStore
@@ -20,6 +21,7 @@ class ProductNew : AppCompatActivity() {
     lateinit var productoFotoContenedor: ImageView
     val REQUEST_IMAGE_CAPTURE_PRECIO = 100
     val REQUEST_IMAGE_CAPTURE_PRODUCTO = 105
+    lateinit var precioActual : ImageView
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -63,6 +65,8 @@ class ProductNew : AppCompatActivity() {
         }
         borrarFoto.setOnClickListener {
             Toast.makeText(this, "eliminar!", Toast.LENGTH_SHORT).show()
+            precioFotoContenedor.setImageResource(R.drawable.camera_120_128)
+            popUpFoto.setImageResource(R.drawable.camera_120_128)
         }
         aceptarFoto.setOnClickListener {
             popupDialogPrecio.dismiss()
@@ -89,6 +93,8 @@ class ProductNew : AppCompatActivity() {
             }
         }
         borrarFoto.setOnClickListener {
+            productoFotoContenedor.setImageResource(R.drawable.camera_120_128)
+            popUpFoto.setImageResource(R.drawable.camera_120_128)
             Toast.makeText(this, "eliminar!", Toast.LENGTH_SHORT).show()
         }
         aceptarFoto.setOnClickListener {
