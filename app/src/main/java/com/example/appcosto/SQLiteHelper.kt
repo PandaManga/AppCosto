@@ -2,6 +2,7 @@ package com.example.appcosto
 
 import android.content.ContentValues
 import android.content.Context
+import android.database.Cursor
 import android.database.sqlite.SQLiteDatabase
 import android.database.sqlite.SQLiteOpenHelper
 
@@ -63,5 +64,55 @@ class SQLiteHelper(context: Context) : SQLiteOpenHelper(context, DATEBASE_NAME, 
         return success
 
     }
+    fun get_min_value(): Int {
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT MIN($IDproducto) FROM $TABLE_NAME", null)
+        var minValue = 0
+
+        if (cursor.moveToFirst()) {
+            minValue = cursor.getInt(0)
+        }
+
+        cursor.close()
+        return minValue
+    }
+
+    fun get_records_amount(): Int {
+        val db = readableDatabase
+        val cursor = db.rawQuery("SELECT COUNT(*) FROM $TABLE_NAME", null)
+        cursor.moveToFirst()
+        val count = cursor.getInt(0)
+        cursor.close()
+        return count
+    }
+
+    fun get_product_name(): MutableList<String> {
+        val db = readableDatabase
+
+        val resultArray = mutableListOf<String>()
+        val projection =
+            arrayOf(NombreProducto) // Replace "column_name" with the name of the column you want to retrieve data from
+        val sortOrder = null
+
+        val cursor: Cursor = db.query(
+            TABLE_NAME,
+            projection,
+            null,
+            null,
+            null,
+            null,
+            sortOrder
+        )// get cursor object
+        val columnIndex = cursor.getColumnIndex("NombreProducto")
+
+        while (cursor.moveToNext()) {
+            val columnValue = cursor.getString(columnIndex)
+            resultArray.add(columnValue)
+        }
+        cursor.close()
+        return resultArray
+    }
+
+
 
 }

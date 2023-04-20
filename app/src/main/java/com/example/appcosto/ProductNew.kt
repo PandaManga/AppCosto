@@ -120,35 +120,66 @@ class ProductNew : AppCompatActivity() {
     }
 
     private fun guardar_producto() {
-        val nombreProducto = "Test-nombreProducto"
-        val marca = "Test-marca"
-        val cantidad = "Test-cantidad"
-        val precio = 59
-        val tienedescuento = false
-        val detalledescuento = "Test-null"
-        val tienepromocion = true
-        val detallepromocion = "Test-2x1"
-        val tienda = "Test-tienda"
-        val direccion = "Test-direccion"
-        val infoAPasar = ProductModel(
-            nombreProducto = nombreProducto,
-            marca = marca,
-            cantidad = cantidad,
-            precio = precio,
-            tienedescuento = tienedescuento,
-            detalledescuento =  detalledescuento,
-            tienepromocion = tienepromocion,
-            detallepromocion = detallepromocion,
-            tienda = tienda,
-            direccion = direccion
-            )
-        val status = sqLiteHelper.insertProduct(infoAPasar)
+        var listoParaGuardar = true
+        val infoNombre = findViewById<EditText>(R.id.info_nombreDelProducto)
+        val infoMarca = findViewById<EditText>(R.id.info_marca)
+        val infoCantidad = findViewById<EditText>(R.id.info_cantidad)
+        val infoPrecio = findViewById<EditText>(R.id.info_precio)
+        val opcionSiDescuento = findViewById<RadioButton>(R.id.descuento_Si)
+        val opcionNoDescuento = findViewById<RadioButton>(R.id.descuento_No)
+        val infoDescuento = findViewById<EditText>(R.id.info_descuento)
+        val opcionSiPromocion = findViewById<RadioButton>(R.id.promocion_Si)
+        val opcionNoPromocion = findViewById<RadioButton>(R.id.promocion_No)
+        val infoPromocion = findViewById<EditText>(R.id.info_promocion)
+        val infoTienda = findViewById<EditText>(R.id.info_tienda)
+        val infoDireccion = findViewById<EditText>(R.id.info_sucursal)
 
-        if (status > -1) {
-            Toast.makeText(this, "Producto agregado....", Toast.LENGTH_SHORT).show()
+        val ID = sqLiteHelper.get_min_value()
+        val Nombre = validar_datos_vacios(infoNombre)
+        val Marca = validar_datos_vacios(infoMarca)
+        val Cantidad = validar_datos_vacios(infoCantidad)
+        val Precio = validar_datos_vacios(infoPrecio)
+        val Descuento = validar_opciones(opcionSiDescuento, opcionNoDescuento, infoDescuento)
+        val Promocion = validar_opciones(opcionSiPromocion, opcionNoPromocion, infoPromocion)
+        val Tienda = validar_datos_vacios(infoTienda)
+        val Direccion = validar_datos_vacios(infoDireccion)
+        val TieneDescuento = validar_radioButtons(opcionSiDescuento, opcionNoDescuento)
+        val TienePromocion = validar_radioButtons(opcionSiPromocion, opcionNoPromocion)
+
+        if (Nombre == "null" || Marca == "null"  || Cantidad == "null" || Precio == "null" ||
+            Descuento == "null" || Promocion == "null"  || Tienda == "null" || Direccion == "null")
+        {
+            listoParaGuardar = false
         }
-        else {
-            Toast.makeText(this, "Error al guardar", Toast.LENGTH_SHORT).show()
+
+        if (listoParaGuardar == true)
+        {
+            val infoAPasar = ProductModel(
+                id = ID + 1,
+                nombreProducto = Nombre,
+                marca = Marca,
+                cantidad = Cantidad,
+                precio = Precio.toInt(),
+                tienedescuento = TieneDescuento,
+                detalledescuento = Descuento,
+                tienepromocion = TienePromocion,
+                detallepromocion = Promocion,
+                tienda = Tienda,
+                direccion = Direccion
+            )
+            val status = sqLiteHelper.insertProduct(infoAPasar)
+            if (status > -1)
+            {
+                Toast.makeText(this, "Producto agregado....", Toast.LENGTH_SHORT).show()
+            }
+            else
+            {
+                Toast.makeText(this, "Error al guardar", Toast.LENGTH_SHORT).show()
+            }
+        }
+        else
+        {
+            Toast.makeText(this, "Favor de llenar todos los campos", Toast.LENGTH_SHORT).show()
         }
     }
 
@@ -184,7 +215,43 @@ class ProductNew : AppCompatActivity() {
 
     }
 
+    public fun validar_datos_vacios(infoVal:EditText): String {
 
+        var datos = infoVal.text.toString()
+        if (datos.isEmpty()) {
+            Toast.makeText(this, "Favor de llenar los campos", Toast.LENGTH_SHORT).show()
+            datos = "null"
+        }
+        return datos
+    }
 
+    fun validar_opciones(opcionSi:RadioButton, opcionNo:RadioButton, infoVal: EditText): String {
+        var datos = infoVal.text.toString()
+        if(opcionSi.isChecked)
+        {
+            if(datos.isEmpty())
+            {
+                Toast.makeText(this, "Favor de llenar los campos", android.widget.Toast.LENGTH_SHORT).show()
+                datos = "null"
+            }
+        }
+        else if(opcionNo.isChecked)
+        {
+            datos = ""
+        }
+        return datos
+    }
+    fun validar_radioButtons(opcionSi:RadioButton, opcionNo:RadioButton): Boolean {
+        var condicion = false
+        if(opcionSi.isChecked)
+        {
+            condicion = true
+        }
+        else if(opcionNo.isChecked)
+        {
+            condicion = false
+        }
+        return condicion
+    }
 
 }

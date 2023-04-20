@@ -3,7 +3,7 @@ package com.example.appcosto
 import java.util.*
 
 data class ProductModel(
-    var id: Int = getAutoId(),
+    var id: Int = 0,
     var nombreProducto: String = "",
     var marca: String = "",
     var cantidad: String = "",
@@ -15,11 +15,4 @@ data class ProductModel(
     var tienda: String = "",
     var direccion : String = ""
 
-) {
-    companion object {
-        fun getAutoId(): Int {
-            val random = Random()
-            return random.nextInt(100)
-        }
-    }
-}
+)
