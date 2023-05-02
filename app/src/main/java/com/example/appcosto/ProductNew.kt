@@ -4,7 +4,6 @@ import android.app.Dialog
 import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.graphics.Bitmap
-import android.media.Image
 import android.os.Bundle
 import android.view.View
 import android.provider.MediaStore
@@ -13,6 +12,10 @@ import androidx.appcompat.app.AppCompatActivity
 
 
 private lateinit var sqLiteHelper: SQLiteHelper
+var precioBitmap: Bitmap? = null
+var precioBitmapHolder: Bitmap? = null
+var productoBitmap: Bitmap? = null
+var productoBitmapHolder: Bitmap? = null
 
 class ProductNew : AppCompatActivity() {
 
@@ -26,6 +29,7 @@ class ProductNew : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        val MainView = findViewById<View>(R.id.MainView)
         setContentView(R.layout.new_product)
         precioFotoContenedor = findViewById(R.id.info_boton_fotoPrecio)
         productoFotoContenedor = findViewById(R.id.info_boton_fotoProducto)
@@ -40,7 +44,10 @@ class ProductNew : AppCompatActivity() {
 
         sqLiteHelper = SQLiteHelper(this)
         val botonGuardar = findViewById<Button>(R.id.guardar_producto)
-        botonGuardar.setOnClickListener { guardar_producto()}
+        botonGuardar.setOnClickListener {
+            guardar_producto()
+
+        }
 
     }
 
@@ -49,10 +56,15 @@ class ProductNew : AppCompatActivity() {
         popupDialogPrecio.setContentView(R.layout.foto_pop_up_precio) // replace with your own custom layout
 
         val cambiarFoto = popupDialogPrecio.findViewById<Button>(R.id.cambiar_popup)
-        val borrarFoto = popupDialogPrecio.findViewById<Button>(R.id.eliminar_popup)
-        val aceptarFoto = popupDialogPrecio.findViewById<Button>(R.id.aceptar_popup)
+        val borrarFoto = popupDialogPrecio.findViewById<Button>(R.id.cancelar_borrado)
+        val aceptarFoto = popupDialogPrecio.findViewById<Button>(R.id.aceptar_borrado)
         popUpFoto = popupDialogPrecio.findViewById(R.id.foto_contenedor)
 
+        if (precioBitmap == null) {
+            popUpFoto.setImageResource(R.drawable.camera_120_128)
+        } else {
+            popUpFoto.setImageBitmap(precioBitmap)
+        }
 
         cambiarFoto.setOnClickListener {
             Toast.makeText(this, "cambiar!", Toast.LENGTH_SHORT).show()
@@ -66,9 +78,11 @@ class ProductNew : AppCompatActivity() {
         borrarFoto.setOnClickListener {
             Toast.makeText(this, "eliminar!", Toast.LENGTH_SHORT).show()
             precioFotoContenedor.setImageResource(R.drawable.camera_120_128)
+            precioBitmap = null
             popUpFoto.setImageResource(R.drawable.camera_120_128)
         }
         aceptarFoto.setOnClickListener {
+            precioBitmap = precioBitmapHolder
             popupDialogPrecio.dismiss()
         }
         popupDialogPrecio.show()
@@ -79,9 +93,15 @@ class ProductNew : AppCompatActivity() {
         popupDialogProducto.setContentView(R.layout.foto_pop_up_precio) // replace with your own custom layout
 
         val cambiarFoto = popupDialogProducto.findViewById<Button>(R.id.cambiar_popup)
-        val borrarFoto = popupDialogProducto.findViewById<Button>(R.id.eliminar_popup)
-        val aceptarFoto = popupDialogProducto.findViewById<Button>(R.id.aceptar_popup)
+        val borrarFoto = popupDialogProducto.findViewById<Button>(R.id.cancelar_borrado)
+        val aceptarFoto = popupDialogProducto.findViewById<Button>(R.id.aceptar_borrado)
         popUpFoto = popupDialogProducto.findViewById(R.id.foto_contenedor)
+
+        if (productoBitmap == null) {
+            popUpFoto.setImageResource(R.drawable.camera_120_128)
+        } else {
+            popUpFoto.setImageBitmap(productoBitmap)
+        }
 
         cambiarFoto.setOnClickListener {
             Toast.makeText(this, "cambiar!", Toast.LENGTH_SHORT).show()
@@ -95,9 +115,11 @@ class ProductNew : AppCompatActivity() {
         borrarFoto.setOnClickListener {
             productoFotoContenedor.setImageResource(R.drawable.camera_120_128)
             popUpFoto.setImageResource(R.drawable.camera_120_128)
+            productoBitmap = null
             Toast.makeText(this, "eliminar!", Toast.LENGTH_SHORT).show()
         }
         aceptarFoto.setOnClickListener {
+            productoBitmap = productoBitmapHolder
             popupDialogProducto.dismiss()
         }
         popupDialogProducto.show()
@@ -108,11 +130,13 @@ class ProductNew : AppCompatActivity() {
             val ImageBitMap = data?.extras?.get("data") as Bitmap
             popUpFoto.setImageBitmap(ImageBitMap)
             precioFotoContenedor.setImageBitmap(ImageBitMap)
+            precioBitmapHolder = ImageBitMap
         }
         if (requestCode == REQUEST_IMAGE_CAPTURE_PRODUCTO && resultCode == RESULT_OK) {
             val ImageBitMap = data?.extras?.get("data") as Bitmap
             popUpFoto.setImageBitmap(ImageBitMap)
             productoFotoContenedor.setImageBitmap(ImageBitMap)
+            productoBitmapHolder = ImageBitMap
         }
         else {
             super.onActivityResult(requestCode, resultCode, data)
@@ -134,11 +158,11 @@ class ProductNew : AppCompatActivity() {
         val infoTienda = findViewById<EditText>(R.id.info_tienda)
         val infoDireccion = findViewById<EditText>(R.id.info_sucursal)
 
-        val ID = sqLiteHelper.get_min_value()
+        val ID = sqLiteHelper.get_records_amount()
         val Nombre = validar_datos_vacios(infoNombre)
         val Marca = validar_datos_vacios(infoMarca)
         val Cantidad = validar_datos_vacios(infoCantidad)
-        val Precio = validar_datos_vacios(infoPrecio)
+        val Precio = validar_numero(infoPrecio)
         val Descuento = validar_opciones(opcionSiDescuento, opcionNoDescuento, infoDescuento)
         val Promocion = validar_opciones(opcionSiPromocion, opcionNoPromocion, infoPromocion)
         val Tienda = validar_datos_vacios(infoTienda)
@@ -146,31 +170,36 @@ class ProductNew : AppCompatActivity() {
         val TieneDescuento = validar_radioButtons(opcionSiDescuento, opcionNoDescuento)
         val TienePromocion = validar_radioButtons(opcionSiPromocion, opcionNoPromocion)
 
-        if (Nombre == "null" || Marca == "null"  || Cantidad == "null" || Precio == "null" ||
+        if (Nombre == "null" || Marca == "null"  || Cantidad == "null" || Precio == 0 ||
             Descuento == "null" || Promocion == "null"  || Tienda == "null" || Direccion == "null")
         {
             listoParaGuardar = false
         }
 
-        if (listoParaGuardar == true)
+        if (listoParaGuardar)
         {
             val infoAPasar = ProductModel(
                 id = ID + 1,
                 nombreProducto = Nombre,
                 marca = Marca,
                 cantidad = Cantidad,
-                precio = Precio.toInt(),
+                precio = Precio,
                 tienedescuento = TieneDescuento,
                 detalledescuento = Descuento,
                 tienepromocion = TienePromocion,
                 detallepromocion = Promocion,
                 tienda = Tienda,
-                direccion = Direccion
+                direccion = Direccion,
+                fotoPrecio = sqLiteHelper.transform_bitmap(precioBitmap),
+                fotoProducto = sqLiteHelper.transform_bitmap(productoBitmap)
             )
             val status = sqLiteHelper.insertProduct(infoAPasar)
             if (status > -1)
             {
+                reiniciar_fotos()
                 Toast.makeText(this, "Producto agregado....", Toast.LENGTH_SHORT).show()
+                val Intent = Intent(this, MainActivity::class.java)
+                startActivity(Intent)
             }
             else
             {
@@ -252,6 +281,32 @@ class ProductNew : AppCompatActivity() {
             condicion = false
         }
         return condicion
+    }
+
+    fun validar_numero(infoVal:EditText) : Int {
+        var datos = infoVal.text.toString().trim()
+        var value: Int?
+        if (datos.isEmpty()) {
+            Toast.makeText(this, "Favor de llenar los campos", android.widget.Toast.LENGTH_SHORT)
+                .show()
+            value = 0
+        }
+        else
+        {
+            value = datos.toIntOrNull()
+            if (value == null) {
+                Toast.makeText(this, "Favor de colocar un valor sin decimal en Precio", android.widget.Toast.LENGTH_SHORT).show()
+                value = 0
+            }
+            return value
+        }
+        return value
+    }
+    fun reiniciar_fotos() {
+        precioBitmap = null
+        productoBitmap = null
+        precioBitmapHolder = null
+        productoBitmapHolder = null
     }
 
 }

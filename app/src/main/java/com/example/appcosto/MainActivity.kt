@@ -1,6 +1,8 @@
 package com.example.appcosto
 
 import android.content.Intent
+import android.graphics.Bitmap
+import android.graphics.BitmapFactory
 
 
 import androidx.appcompat.app.AppCompatActivity
@@ -12,30 +14,30 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.constraintlayout.widget.ConstraintSet
 import androidx.core.content.ContextCompat
 
-
+var productChosen: Int = 0
 class MainActivity : AppCompatActivity() {
 
     private lateinit var sqLiteHelper: SQLiteHelper
 
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-
         val addProduct = findViewById<ImageButton>(R.id.addProduct)
         addProduct.setOnClickListener{
             val Intent = Intent(this, ProductNew::class.java)
             startActivity(Intent)
         }
-
         sqLiteHelper = SQLiteHelper(this)
         val numeroDeRegistros = sqLiteHelper.get_records_amount() //Obtiene el numero de botones a crear
         val numeroDeProductos = numeroDeRegistros + 1
         val nombreDeProductos = sqLiteHelper.get_product_name()
-        val IdButtons = create_buttons(numeroDeProductos, addProduct, nombreDeProductos) //El primer registro esta en [1] no en [0]
+        val imagenDeProductos = sqLiteHelper.get_images_product()
+        val IdButtons = create_buttons(numeroDeProductos, addProduct, nombreDeProductos, imagenDeProductos) //El primer registro esta en [1] no en [0]
 
     }
 
-    fun create_buttons(numeroDeProductos:Int, addButton: ImageButton, nombreDeProductos: MutableList<String>): IntArray {
+    fun create_buttons(numeroDeProductos:Int, addButton: ImageButton, nombreDeProductos: MutableList<String>, imagenDeProductos: MutableList<Bitmap>): IntArray {
         var IdButtonsArray = IntArray(numeroDeProductos)
         val Izquierda: Int = 0
         val Derecha:Int = 450
@@ -47,11 +49,11 @@ class MainActivity : AppCompatActivity() {
             if (NumeroPar)
             {
                 TopMargin += 450
-                IdButtonsArray[contador] =  CreateNewButton(addButton ,Izquierda, TopMargin, contador, nombreDeProductos)
+                IdButtonsArray[contador] =  CreateNewButton(addButton ,Izquierda, TopMargin, contador, nombreDeProductos, imagenDeProductos)
             }
             else
             {
-                IdButtonsArray[contador] =  CreateNewButton(addButton ,Derecha, TopMargin, contador, nombreDeProductos)
+                IdButtonsArray[contador] =  CreateNewButton(addButton ,Derecha, TopMargin, contador, nombreDeProductos, imagenDeProductos)
             }
             contador += 1
 
@@ -59,19 +61,20 @@ class MainActivity : AppCompatActivity() {
         return IdButtonsArray
     }
 
-    fun CreateNewButton(addButton: ImageButton, StartMargin:Int, TopMargin:Int, contador: Int, nombreDeProductos: MutableList<String>): Int {
+    fun CreateNewButton(addButton: ImageButton, StartMargin:Int, TopMargin:Int, contador: Int, nombreDeProductos: MutableList<String>, imagenDeProductos: MutableList<Bitmap>): Int {
         val button = ImageButton(this)
         val layoutParams = ViewGroup.LayoutParams(389, 389)
         val parentLayout = findViewById<ConstraintLayout>(R.id.constraintLayout)
         val constraints = ConstraintSet()
         val contadorNombre = contador - 1
-        button.setImageResource(R.drawable.plus)
+        button.setImageBitmap(imagenDeProductos[contadorNombre])
         button.id = View.generateViewId()
         button.setBackgroundResource(R.drawable.rounded_button)
         button.layoutParams = layoutParams
         var showText = nombreDeProductos[contadorNombre]
         button.setOnClickListener {
-            Toast.makeText(this, "You clicked $showText", Toast.LENGTH_SHORT).show()
+            productChosen = contador
+            open_product()
         }
         parentLayout.addView(button)
         constraints.clone(parentLayout)
@@ -96,14 +99,18 @@ class MainActivity : AppCompatActivity() {
             ConstraintLayout.LayoutParams.WRAP_CONTENT
         )
 
-        params.topToTop = button.id + 50 // set the top constraint of the textview to the top of the image button
-        params.bottomToBottom = button.id // set the bottom constraint of the textview to the bottom of the image button
-        params.startToStart = button.id // set the start constraint of the textview to the start of the image button
-        params.endToEnd = button.id // set the end constraint of the textview to the end of the image button
-        textView.layoutParams = params // set the layout parameters of the textview
+        params.topToTop = button.id + 50
+        params.bottomToBottom = button.id
+        params.startToStart = button.id
+        params.endToEnd = button.id
+        textView.layoutParams = params
 
-        val parent = button.parent as ConstraintLayout // get the parent constraint layout of the image button
+        val parent = button.parent as ConstraintLayout
         parent.addView(textView)
     }
 
+    fun open_product() {
+        val Intent = Intent(this, ProductOpen::class.java)
+        startActivity(Intent)
+    }
 }

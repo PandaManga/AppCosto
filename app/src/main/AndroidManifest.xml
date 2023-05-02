@@ -25,6 +25,8 @@
             android:name=".ProductModel"/>
         <activity
             android:name=".SQLiteHelper"/>
+        <activity
+            android:name=".ProductOpen"/>
     </application>
 
 </manifest>

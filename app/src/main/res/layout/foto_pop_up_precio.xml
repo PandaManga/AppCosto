@@ -33,7 +33,7 @@
         app:srcCompat="@drawable/camera_120_128" />
 
     <Button
-        android:id="@+id/eliminar_popup"
+        android:id="@+id/cancelar_borrado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="198dp"
@@ -65,7 +65,7 @@
         app:layout_constraintVertical_bias="0.0" />
 
     <Button
-        android:id="@+id/aceptar_popup"
+        android:id="@+id/aceptar_borrado"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="258dp"

@@ -2,6 +2,7 @@
     <string name="app_name">AppCosto</string>
     <string name="titulo_menu">Menu Principal</string>
     <string name="titulo_nuevo_producto">Nuevo Producto</string>
+    <string name="titulo_Modificar_producto">Modificar Producto</string>
     <string name="nombreDelProducto">Nombre del producto</string>
     <string name="marca">Marca</string>
     <string name="cantidad">Cantidad/Piezas</string>
@@ -22,4 +23,11 @@
     <string name="Cambiar_foto">Cambiar Foto</string>
     <string name="Aceptar">Aceptar</string>
     <string name="GuardarNuevoProducto">Guardar nuevo producto</string>
+    <string name="GuardarCambios">Guardar Cambios</string>
+    <string name="BorrarProduct">Borrar Producto</string>
+    <string name="ConfirmacionFragmento1">Esta acción no se</string>
+    <string name="ConfirmacionFragmento2">puede deshacer</string>
+    <string name="ConfirmacionFragmento3">¿Quiere borrar </string>
+    <string name="ConfirmacionFragmento4">este producto? </string>
+
 </resources>

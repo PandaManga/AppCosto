@@ -6,10 +6,12 @@
     android:layout_height="match_parent"
     android:background="@color/fondo_color"
     android:fillViewport="true"
+    android:id="@+id/MainView"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
     app:layout_constraintTop_toTopOf="parent"
     tools:ignore="SpeakableTextPresentCheck">
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
