@@ -29,5 +29,6 @@
     <string name="ConfirmacionFragmento2">puede deshacer</string>
     <string name="ConfirmacionFragmento3">¿Quiere borrar </string>
     <string name="ConfirmacionFragmento4">este producto? </string>
+    <string name="titulo_tips_ahorro">Tips de ahorro</string>
 
 </resources>

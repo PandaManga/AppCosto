@@ -24,8 +24,13 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val addProduct = findViewById<ImageButton>(R.id.addProduct)
+        val tipsButton = findViewById<ImageButton>(R.id.tips_button)
         addProduct.setOnClickListener{
             val Intent = Intent(this, ProductNew::class.java)
+            startActivity(Intent)
+        }
+        tipsButton.setOnClickListener{
+            val Intent = Intent(this, ApiActivity::class.java)
             startActivity(Intent)
         }
         sqLiteHelper = SQLiteHelper(this)
