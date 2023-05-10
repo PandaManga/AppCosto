@@ -1,8 +1,10 @@
 package com.example.appcosto
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log.d
+import android.widget.ImageButton
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import retrofit2.Call
@@ -21,6 +23,11 @@ class ApiActivity : AppCompatActivity() {
         setContentView(R.layout.api_rest_display)
         val RecyclerView = findViewById<RecyclerView>(R.id.recyclerViewId)
         RecyclerView.setHasFixedSize(true)
+        val regresarButton = findViewById<ImageButton>(R.id.regresar_button)
+        regresarButton.setOnClickListener {
+            val Intent = Intent(this, MainActivity::class.java)
+            startActivity(Intent)
+        }
 
         linearLayoutManager = LinearLayoutManager(this)
         RecyclerView.layoutManager = linearLayoutManager
