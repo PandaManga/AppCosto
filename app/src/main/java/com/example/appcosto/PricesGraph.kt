@@ -24,7 +24,7 @@ class PricesGraph : AppCompatActivity() {
         val Fechas = sqLiteHelperHistory.getStoredDates(productChosen)
         val Precios = sqLiteHelperHistory.getPrices(productChosen)
 
-        val NewXData = convertFechasAX(Fechas, NumDataPoints-1)
+        val NewXData = convertFechasAX(Fechas, NumDataPoints)
 
         lineGraphView = findViewById(R.id.idGraphView)
         val series: LineGraphSeries<DataPoint> = LineGraphSeries()
@@ -52,19 +52,26 @@ class PricesGraph : AppCompatActivity() {
         lineGraphView.addSeries(series)
     }
 
-    fun convertFechasAX(Fechas: MutableList<String>, NumDataPoints: Int): Array<Int> {
-        var NewFechas : Array<Int> = arrayOf(NumDataPoints)
-        NewFechas[0] = 1
+    fun convertFechasAX(Fechas: MutableList<String>, NumDataPoints: Int): IntArray {
+        var fechaConsecutiva = 0
+        var dias  = 0
+        var NewFechas  = IntArray(NumDataPoints)
+        NewFechas[0] = 0
         var contador = 0
         var NextDate : Temporal
         var FirstDate = parseDate(Fechas[contador])
         if (Fechas.size > 1 ) {
             while (contador < NumDataPoints - 1) {
+                var MaxDias = NewFechas.max()
                 contador++
+                fechaConsecutiva++
                 NextDate = parseDate(Fechas[contador])
-                NewFechas[contador] = ChronoUnit.DAYS.between(FirstDate, NextDate).toInt()
-                if (NewFechas[contador] == 0) {
-                    NewFechas[contador] = 1
+                dias = ChronoUnit.DAYS.between(FirstDate, NextDate).toInt()
+                if (dias == 0) {
+                    NewFechas[contador] = MaxDias + 1
+                }
+                else {
+                    NewFechas[contador] = dias
                 }
             }
         }
