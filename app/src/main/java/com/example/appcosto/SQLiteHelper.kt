@@ -42,11 +42,19 @@ class SQLiteHelper(context: Context) : SQLiteOpenHelper(context, DATEBASE_NAME, 
                 + TienePromocion + " BOOLEAN," + DetallePromocion + " TEXT,"
                 + Tienda + " TEXT," + Direccion + " TEXT" + ")"
                 )
+
+        val createTableHistory = ("CREATE TABLE products_history ("
+                + SQLiteHelper.IDproducto + " INTEGER," + SQLiteHelper.NombreProducto + " TEXT,"
+                + SQLiteHelper.Precio + " INTEGER," + SQLiteHelper.TieneDescuento + " BOOLEAN,"
+                + SQLiteHelper.TienePromocion + " BOOLEAN," + " Fecha TEXT" + ")"
+                )
+        db?.execSQL(createTableHistory)
         db?.execSQL(createTableProductos)
     }
 
     override fun onUpgrade(db: SQLiteDatabase?, oldVersion: Int, newVersion: Int) {
         db!!.execSQL("DROP TABLE IF EXISTS $TABLE_NAME")
+        db!!.execSQL("DROP TABLE IF EXISTS products_history")
         onCreate(db)
     }
     fun updateProduct(std: ProductModel, ID: Int): Int {
@@ -132,7 +140,7 @@ class SQLiteHelper(context: Context) : SQLiteOpenHelper(context, DATEBASE_NAME, 
 
         val resultArray = mutableListOf<String>()
         val projection =
-            arrayOf(NombreProducto) // Replace "column_name" with the name of the column you want to retrieve data from
+            arrayOf(NombreProducto)
         val sortOrder = null
 
         val cursor: Cursor = db.query(

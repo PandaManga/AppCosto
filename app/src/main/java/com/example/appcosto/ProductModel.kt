@@ -19,3 +19,5 @@ data class ProductModel(
     var tienda: String = "",
     var direccion : String = "",
 )
+
+

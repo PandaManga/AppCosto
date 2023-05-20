@@ -11,6 +11,7 @@ import android.widget.*
 import androidx.appcompat.app.AppCompatActivity
 
 private lateinit var sqLiteHelper: SQLiteHelper
+private lateinit var sqLiteHelperHistory: SQLiteHelperHistory
 var OpenprecioBitmap: Bitmap? = null
 var OpenprecioBitmapHolder: Bitmap? = null
 var OldprecioBitmap: Bitmap? = null
@@ -30,6 +31,14 @@ class ProductOpen: AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.change_product)
         sqLiteHelper = SQLiteHelper(this)
+        sqLiteHelperHistory = SQLiteHelperHistory(this)
+
+        val GraphButton = findViewById<ImageButton>(R.id.graph)
+        GraphButton.setOnClickListener {
+            val Intent = Intent(this, PricesGraph::class.java)
+            startActivity(Intent)
+        }
+
         val ActualizarProducto = findViewById<Button>(R.id.actualizar_Producto)
         ActualizarProducto.setOnClickListener {
             actualizar_producto()
@@ -119,12 +128,12 @@ class ProductOpen: AppCompatActivity() {
 
     fun setdetallesPromocion(){
         val DetalleView = findViewById<TextView>(R.id.info_promocion)
-        DetalleView.text = sqLiteHelper.get_descuento_detalle(productChosen)
+        DetalleView.text = sqLiteHelper.get_promocion_detalle(productChosen)
     }
 
     fun setdetallesDescuento(){
         val DetalleView = findViewById<TextView>(R.id.info_descuento)
-        DetalleView.text = sqLiteHelper.get_promocion_detalle(productChosen)
+        DetalleView.text = sqLiteHelper.get_descuento_detalle(productChosen)
     }
 
     fun setTienda(){
@@ -225,6 +234,7 @@ class ProductOpen: AppCompatActivity() {
         }
         borrarProducto.setOnClickListener {
             sqLiteHelper.borrarProducto(productChosen)
+            sqLiteHelperHistory.deleteHistory(productChosen)
             popUpConfirmarBorrar.dismiss()
             val Intent = Intent(this, MainActivity::class.java)
             startActivity(Intent)
@@ -408,6 +418,7 @@ class ProductOpen: AppCompatActivity() {
         val infoDireccion = findViewById<EditText>(R.id.info_sucursal)
 
         val ID = productChosen
+
         val Nombre = validar_datos_vacios(infoNombre)
         val Marca = validar_datos_vacios(infoMarca)
         val Cantidad = validar_datos_vacios(infoCantidad)
@@ -443,6 +454,7 @@ class ProductOpen: AppCompatActivity() {
                 fotoProducto = sqLiteHelper.transform_bitmap(OpenproductoBitmap)
             )
             val status = sqLiteHelper.updateProduct(infoAPasar, productChosen)
+            guardarHistorial()
             if (status > -1)
             {
                 reiniciar_fotos()
@@ -460,6 +472,50 @@ class ProductOpen: AppCompatActivity() {
             Toast.makeText(this, "Favor de llenar todos los campos", Toast.LENGTH_SHORT).show()
         }
     }
+
+    private fun guardarHistorial() {
+        val infoPrecio = findViewById<EditText>(R.id.info_precio)
+        val infoNombre = findViewById<EditText>(R.id.info_nombreDelProducto)
+        val opcionSiDescuento = findViewById<RadioButton>(R.id.descuento_Si)
+        val opcionNoDescuento = findViewById<RadioButton>(R.id.descuento_No)
+        val infoDescuento = findViewById<EditText>(R.id.info_descuento)
+        val opcionSiPromocion = findViewById<RadioButton>(R.id.promocion_Si)
+        val opcionNoPromocion = findViewById<RadioButton>(R.id.promocion_No)
+        val infoPromocion = findViewById<EditText>(R.id.info_promocion)
+
+        val ID = productChosen
+        val Nombre = validar_datos_vacios(infoNombre)
+        val Precio = validar_numero(infoPrecio)
+        val Descuento = validar_opciones(opcionSiDescuento, opcionNoDescuento, infoDescuento)
+        val Promocion = validar_opciones(opcionSiPromocion, opcionNoPromocion, infoPromocion)
+        val TieneDescuento = validar_radioButtons(opcionSiDescuento, opcionNoDescuento)
+        val TienePromocion = validar_radioButtons(opcionSiPromocion, opcionNoPromocion)
+        val Fecha = sqLiteHelperHistory.getLocalDate()
+
+
+        val infoAPasar = ProductHistory(
+            id = ID,
+            nombre = Nombre,
+            precio = Precio,
+            tienedescuento = TieneDescuento,
+            detalledescuento = Descuento,
+            tienepromocion = TienePromocion,
+            detallepromocion = Promocion,
+            fecha = Fecha
+        )
+
+        val status = sqLiteHelperHistory.insertHistory(infoAPasar)
+
+        if (status > -1)
+        {
+            Toast.makeText(this, "Historial agregado....", Toast.LENGTH_SHORT).show()
+        }
+        else
+        {
+            Toast.makeText(this, "Error al guardar historial", Toast.LENGTH_SHORT).show()
+        }
+    }
+
 
     fun reiniciar_fotos(){
         OpenprecioBitmap = null
