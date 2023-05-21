@@ -30,6 +30,6 @@
     <string name="ConfirmacionFragmento3">¿Quiere borrar </string>
     <string name="ConfirmacionFragmento4">este producto? </string>
     <string name="titulo_tips_ahorro">Tips de ahorro</string>
-    <string name="placeholder">Placeholder</string>
+    <string name="titulografica">Evolucion del precio</string>
 
 </resources>

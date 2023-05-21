@@ -1,7 +1,10 @@
 package com.example.appcosto
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.widget.ImageButton
+import android.widget.TextView
 import java.time.LocalDate
 import java.time.temporal.ChronoUnit
 import com.jjoe64.graphview.GraphView
@@ -23,6 +26,11 @@ class PricesGraph : AppCompatActivity() {
         val NumDataPoints = sqLiteHelperHistory.getIDcount(productChosen)
         val Fechas = sqLiteHelperHistory.getStoredDates(productChosen)
         val Precios = sqLiteHelperHistory.getPrices(productChosen)
+        val regresarButton = findViewById<ImageButton>(R.id.regresar_button)
+        regresarButton.setOnClickListener {
+            val Intent = Intent(this, ProductOpen::class.java)
+            startActivity(Intent)
+        }
 
         val NewXData = convertFechasAX(Fechas, NumDataPoints)
 
@@ -71,7 +79,7 @@ class PricesGraph : AppCompatActivity() {
                     NewFechas[contador] = MaxDias + 1
                 }
                 else {
-                    NewFechas[contador] = dias
+                    NewFechas[contador] = MaxDias + dias
                 }
             }
         }
