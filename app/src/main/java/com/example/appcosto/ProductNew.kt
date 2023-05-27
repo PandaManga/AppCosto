@@ -178,6 +178,11 @@ class ProductNew : AppCompatActivity() {
             listoParaGuardar = false
         }
 
+        if (precioBitmap == null || productoBitmap == null)
+        {
+            listoParaGuardar = false
+        }
+
         if (listoParaGuardar)
         {
             val infoAPasar = ProductModel(
